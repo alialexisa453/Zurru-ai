@@ -4,7 +4,7 @@ services:
     name: anythingllm-server
     env: node
     plan: starter
-    buildCommand: cd server && yarn install && yarn prisma:generate
+    buildCommand: ./render-build.sh
     startCommand: cd server && yarn start
     envVars:
       - key: NODE_ENV
@@ -33,7 +33,7 @@ services:
     name: anythingllm-collector
     env: node
     plan: starter
-    buildCommand: cd collector && yarn install
+    buildCommand: ./collector-build.sh
     startCommand: cd collector && yarn start
     envVars:
       - key: NODE_ENV

@@ -1,5 +1,5 @@
 # Dockerfile for Render deployment
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Install system dependencies required for document processing
 RUN apk add --no-cache \
@@ -25,6 +25,9 @@ COPY package*.json ./
 COPY yarn.lock ./
 COPY collector/package*.json ./collector/
 COPY collector/yarn.lock ./collector/ 2>/dev/null || :
+
+# Install node-gyp globally
+RUN npm install -g node-gyp
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
