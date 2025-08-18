@@ -4,7 +4,7 @@ services:
     name: anythingllm-server
     env: node
     plan: starter
-    buildCommand: ./render-build.sh
+    buildCommand: ./render-server-build.sh
     startCommand: cd server && yarn start
     envVars:
       - key: NODE_ENV
@@ -27,13 +27,23 @@ services:
         fromDatabase:
           name: anythingllm-db
           property: connectionString
+      - key: LLM_PROVIDER
+        value: openrouter
+      - key: OPENROUTER_API_KEY
+        value: REPLACE_WITH_YOUR_OPENROUTER_API_KEY
+      - key: OPENROUTER_MODEL_PREF
+        value: anthropic/claude-3-haiku
+      - key: EMBEDDING_ENGINE
+        value: native
+      - key: EMBEDDING_MODEL_PREF
+        value: Xenova/all-MiniLM-L6-v2
     
   # Document Collector Service
   - type: web
     name: anythingllm-collector
     env: node
     plan: starter
-    buildCommand: ./collector-build.sh
+    buildCommand: ./render-collector-build.sh
     startCommand: cd collector && yarn start
     envVars:
       - key: NODE_ENV
