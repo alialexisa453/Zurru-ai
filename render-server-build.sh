@@ -3,21 +3,7 @@ set -e
 
 echo "Starting server build process..."
 
-# Update package lists
-apt-get update
-
-# Install essential build tools
-apt-get install -y \
-  python3 \
-  python3-dev \
-  python3-pip \
-  build-essential \
-  pkg-config \
-  libtool \
-  autoconf \
-  automake
-
-# Install node-gyp globally
+# Install node-gyp globally (no system packages needed on Render)
 npm install -g node-gyp
 
 echo "Build tools installed, starting server dependencies..."
