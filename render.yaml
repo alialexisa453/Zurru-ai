@@ -1,0 +1,48 @@
+services:
+  # Main Server Service
+  - type: web
+    name: anythingllm-server
+    env: node
+    plan: starter
+    buildCommand: cd server && yarn install && yarn prisma:generate
+    startCommand: cd server && yarn start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVER_PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SIG_KEY
+        generateValue: true
+      - key: SIG_SALT
+        generateValue: true
+      - key: VECTOR_DB
+        value: lancedb
+      - key: TTS_PROVIDER
+        value: native
+      - key: WHISPER_PROVIDER
+        value: local
+      - key: DATABASE_URL
+        fromDatabase:
+          name: anythingllm-db
+          property: connectionString
+    
+  # Document Collector Service
+  - type: web
+    name: anythingllm-collector
+    env: node
+    plan: starter
+    buildCommand: cd collector && yarn install
+    startCommand: cd collector && yarn start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVER_PORT
+        value: 10000
+
+  # PostgreSQL Database
+databases:
+  - name: anythingllm-db
+    databaseName: anythingllm
+    user: anythingllm

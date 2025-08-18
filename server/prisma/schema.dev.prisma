@@ -2,16 +2,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// PostgreSQL datasource for production deployment
+// SQLite datasource for local development
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:../storage/anythingllm.db"
 }
 
-// SQLite datasource for local development
+// PostgreSQL datasource for production deployment
 // datasource db {
-//   provider = "sqlite"
-//   url      = "file:../storage/anythingllm.db"
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
 // }
 
 model api_keys {

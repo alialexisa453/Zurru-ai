@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
+    }
+  ],
+  "outputDirectory": "frontend/dist",
+  "buildCommand": "cd frontend && yarn build",
+  "devCommand": "cd frontend && yarn dev",
+  "installCommand": "yarn install && cd frontend && yarn install"
+}

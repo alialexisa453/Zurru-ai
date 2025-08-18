@@ -1,0 +1,31 @@
+# Dockerfile for Render deployment
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY yarn.lock ./
+COPY server/package*.json ./server/
+COPY server/yarn.lock ./server/ 2>/dev/null || :
+
+# Install dependencies
+RUN yarn install --frozen-lockfile
+WORKDIR /app/server
+RUN yarn install --frozen-lockfile
+
+# Copy server source code
+COPY server/ .
+
+# Generate Prisma client
+RUN npx prisma generate
+
+# Create necessary directories
+RUN mkdir -p storage/documents storage/models/downloaded storage/vector-cache
+
+# Expose port
+EXPOSE 10000
+
+# Start the server
+CMD ["yarn", "start"]

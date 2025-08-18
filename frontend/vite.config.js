@@ -56,6 +56,7 @@ export default defineConfig({
     ]
   },
   build: {
+    outDir: 'dist',
     rollupOptions: {
       output: {
         // These settings ensure the primary JS and CSS file references are always index.{js,css}
