@@ -1,19 +1,19 @@
 #!/bin/bash
 set -e
 
-echo "Starting server build process..."
+echo "Starting minimal server build for free tier..."
 
-# Install node-gyp globally (no system packages needed on Render)
-npm install -g node-gyp
+# Conservative memory settings for free tier
+export NODE_OPTIONS="--max-old-space-size=512"
 
-echo "Build tools installed, starting server dependencies..."
-
-# Change to server directory and install dependencies
+# Change to server directory
 cd server
-yarn install --network-timeout 100000
+
+echo "Installing only production dependencies..."
+# Skip heavy dev dependencies and native modules that may fail
+yarn install --production --ignore-optional --network-timeout 300000
 
 echo "Setting up production database schema..."
-# Copy production schema over the main schema
 cp prisma/schema.production.prisma prisma/schema.prisma
 
 echo "Running Prisma generation..."

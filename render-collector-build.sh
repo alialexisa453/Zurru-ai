@@ -1,17 +1,16 @@
 #!/bin/bash
 set -e
 
-echo "Starting collector build process..."
+echo "Starting minimal collector build for free tier..."
 
-# Install node-gyp globally (Render provides build tools)
-npm install -g node-gyp
+# Conservative memory settings for free tier  
+export NODE_OPTIONS="--max-old-space-size=512"
 
-echo "Build tools installed, starting collector dependencies..."
-
-# Change to collector directory and install dependencies
+# Change to collector directory
 cd collector
 
-# Install with longer timeout and verbose logging
-yarn install --network-timeout 100000 --verbose
+echo "Installing only production dependencies..."
+# Skip heavy dev dependencies and optional modules
+yarn install --production --ignore-optional --network-timeout 300000
 
 echo "Collector build completed successfully!"
